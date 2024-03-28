@@ -8,7 +8,7 @@ class ApiClient {
     request.files
         .add(await http.MultipartFile.fromPath("image_file", imagePath));
     request.headers.addAll(
-        {"X-API-Key": '6HGaWotede1RdWqzVCc3a6JF'}); //Put Your API key HERE
+        {"X-API-Key": 'YOUR_API_KEY'}); //Put Your API key HERE
     final response = await request.send();
     if (response.statusCode == 200) {
       http.Response imgRes = await http.Response.fromStream(response);
