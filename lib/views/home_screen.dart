@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //
     }
   }
-
+  // Save into android emulator download folder
   void saveImage() {
     var time = DateTime.now().millisecondsSinceEpoch;
     var path = "storage/emulated/0/Download/image-$time.jpg";
