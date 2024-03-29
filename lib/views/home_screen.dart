@@ -38,68 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  downloadImage() async {
-    var perm = await Permission.storage.request();
-
-    var folderName = "BGRemover";
-    var fileName = "${DateTime.now().millisecondsSinceEpoch}.png";
-
-    if (perm.isGranted) {
-      final directory = Directory("storage/emulated/0");
-
-      if (!await directory.exists()) {
-        await directory.create(recursive: true);
-      }
-      await controller.captureAndSave(directory.path,
-          delay: const Duration(milliseconds: 100),
-          fileName: fileName,
-          pixelRatio: 1.0);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Downloades to ${directory.path}")));
-    }
+  void saveImage() {
+    var time = DateTime.now().millisecondsSinceEpoch;
+    var path = "storage/emulated/0/Download/image-$time.jpg";
+    var file = File(path);
+    var pic = image;
+    file.writeAsBytes(pic!);
   }
-
-  void saveImage() async {
-    // Request permission
-    var status = await Permission.storage.request();
-
-    if (status.isGranted) {
-      // Permission granted, proceed with saving image
-      try {
-        String directory = (await getExternalStorageDirectory())!.path;
-        String fileName =
-            DateTime.now().microsecondsSinceEpoch.toString() + ".png";
-
-        // Capture and save image
-        controller.captureAndSave(directory, fileName: fileName);
-      } catch (e) {
-        print('Error saving image: $e');
-      }
-    } else {
-      // Permission denied or restricted
-      print('Permission to access storage was not granted.');
-
-      if (status.isPermanentlyDenied) {
-        // Handle case where permission is permanently denied by showing a dialog or navigating to app settings
-        print('Storage permission is permanently denied.');
-      }
-    }
-  }
-
-  // void saveImage() async {
-  //   bool isGranted = await Permission.storage.status.isGranted;
-  //   if (!isGranted) {
-  //     isGranted = await Permission.storage.request().isGranted;
-  //   }
-
-  //   if (isGranted) {
-  //     String directory = (await getExternalStorageDirectory())!.path;
-  //     String fileName =
-  //         DateTime.now().microsecondsSinceEpoch.toString() + ".png";
-  //     controller.captureAndSave(directory, fileName: fileName);
-  //   }
-  // }
 
   void getImage(ImageSource source) async {
     try {
